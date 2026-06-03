@@ -1,0 +1,44 @@
+@if (isOpen()) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300">
+  
+    <div
+      class="bg-white border-[6px] border-rose-400 rounded-[2.5rem] w-full max-w-md p-8 text-center shadow-[0_16px_0_0_rgba(244,63,94,0.3)] relative overflow-hidden transform scale-100 transition-transform duration-300 animate-bounce-short">
+  
+      <div class="absolute -top-6 -right-6 w-24 h-24 bg-yellow-200 rounded-full opacity-60"></div>
+      <div class="absolute -bottom-6 -left-6 w-20 h-20 bg-blue-200 rounded-full opacity-60"></div>
+  
+      <div class="text-7xl mb-4 animate-pulse">
+        🎮
+      </div>
+  
+      <h2 class="text-4xl font-black text-rose-600 uppercase tracking-wide drop-shadow-[0_2px_0_rgba(0,0,0,0.1)] mb-6">
+        ¡Juego Terminado!
+      </h2>
+  
+      <div class="bg-indigo-50 border-4 border-indigo-200 rounded-2xl p-4 mb-8 flex flex-col gap-3">
+        <div class="flex justify-between items-center px-2">
+          <span class="text-sm font-black text-indigo-900 uppercase">⭐ Puntos Conseguidos:</span>
+          <span class="text-3xl font-black text-indigo-600">{{ finalScore() }}</span>
+        </div>
+  
+        <div class="h-1 bg-indigo-200 rounded-full w-full"></div>
+  
+        <div class="flex justify-between items-center px-2">
+          <span class="text-sm font-black text-emerald-900 uppercase">🏆 Tu Récord Máximo:</span>
+          <span class="text-3xl font-black text-emerald-600">{{ bestRecord() }}</span>
+        </div>
+      </div>
+  
+      <p class="text-slate-600 font-extrabold text-lg mb-8 px-2">
+        ¡Lo hiciste súper bien! ¿Quieres intentarlo de nuevo para romper tu récord? 🚀
+      </p>
+  
+      <button (click)="triggerRestart()"
+        class="w-full bg-emerald-400 hover:bg-emerald-300 active:translate-y-1 active:shadow-[0_4px_0_0_#059669] border-4 border-emerald-500 text-emerald-950 font-black text-2xl py-4 rounded-3xl transition-all duration-150 shadow-[0_8px_0_0_#059669] cursor-pointer text-center uppercase tracking-wide">
+        ¡Jugar Otra Vez! ✨
+      </button>
+  
+    </div>
+  </div>
+}

@@ -1,0 +1,88 @@
+<div
+    class="min-h-screen bg-gradient-to-b from-blue-100 to-indigo-200 p-4 md:p-8 flex flex-col justify-between font-sans select-none">
+
+    <header class="flex flex-col sm:flex-row justify-between items-center w-full max-w-4xl mx-auto gap-4">
+        <div
+            class="bg-amber-400 border-4 border-amber-500 rounded-2xl p-3 text-center shadow-[0_6px_0_0_#d97706] flex-1 w-full sm:max-w-[180px]">
+            <span class="block text-xs font-black text-amber-900 tracking-wider uppercase">✨ PUNTOS ✨</span>
+            <span class="text-3xl font-black text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
+                {{ currentScore() }}
+            </span>
+        </div>
+
+        <div
+            class="bg-rose-100 border-4 border-rose-300 rounded-2xl p-2 px-6 text-center flex items-center gap-2 shadow-[0_4px_0_0_rgba(244,63,94,0.2)]">
+            <span class="text-xs font-black text-rose-700 uppercase mr-1">Errores:</span>
+            <div class="flex gap-1.5">
+                <span class="text-2xl transition-all duration-300" [class.opacity-30]="wrongAnswersCount() < 1">❌</span>
+                <span class="text-2xl transition-all duration-300" [class.opacity-30]="wrongAnswersCount() < 2">❌</span>
+                <span class="text-2xl transition-all duration-300" [class.opacity-30]="wrongAnswersCount() < 3">❌</span>
+            </div>
+        </div>
+
+        <div
+            class="bg-emerald-400 border-4 border-emerald-500 rounded-2xl p-3 text-center shadow-[0_6px_0_0_#059669] flex-1 w-full sm:max-w-[180px]">
+            <span class="block text-xs font-black text-emerald-900 tracking-wider uppercase">🏆 RÉCORD 🏆</span>
+            <span class="text-3xl font-black text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
+                {{ sessionScore() }}
+            </span>
+        </div>
+    </header>
+
+    <main class="flex-1 flex flex-col justify-center items-center my-6 max-w-4xl w-full mx-auto">
+        <div
+            class="bg-white border-[6px] border-indigo-400 rounded-[2.5rem] p-8 md:p-12 w-full text-center shadow-[0_12px_0_0_rgba(129,140,248,0.3)] relative overflow-hidden">
+            <div class="absolute -top-10 -left-10 w-32 h-32 bg-yellow-100 rounded-full opacity-50 pointer-events-none">
+            </div>
+
+            <span
+                class="inline-block bg-indigo-100 text-indigo-700 text-sm font-black px-4 py-1.5 rounded-full uppercase tracking-widest mb-4">
+                ¿Cuánto es?
+            </span>
+
+            <div
+                class="flex justify-center items-center gap-4 text-6xl md:text-8xl font-black text-slate-700 tracking-tighter">
+                <span class="text-blue-500 drop-shadow-[0_4px_0_rgba(0,0,0,0.1)]">{{ firstNumber() }}</span>
+                <span class="text-pink-500 text-5xl md:text-7xl">×</span>
+                <span class="text-purple-500 drop-shadow-[0_4px_0_rgba(0,0,0,0.1)]">{{ secondNumber() }}</span>
+                <span class="text-slate-400">=</span>
+                <span *ngIf="!isAnswered()"
+                    class="text-orange-400 font-extrabold animate-pulse drop-shadow-[0_4px_0_rgba(0,0,0,0.1)]">?</span>
+                <span *ngIf="isAnswered()"
+                    class="text-indigo-600 font-extrabold drop-shadow-[0_4px_0_rgba(0,0,0,0.1)] animate-bounce">{{
+                    correctAnswer() }}</span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 w-full">
+            <button *ngFor="let option of options()" (click)="selectOption(option)" [disabled]="isAnswered()"
+                class="text-4xl md:text-5xl py-4 rounded-3xl transition-all duration-150 border-4 font-black text-center cursor-pointer select-none"
+                [ngClass]="{
+                    'bg-lime-400 hover:bg-lime-300 border-lime-500 text-lime-950 shadow-[0_8px_0_0_#65a30d] active:translate-y-1 active:shadow-[0_4px_0_0_#65a30d]': !isAnswered(),
+                    'bg-emerald-500 border-emerald-600 text-white shadow-[0_4px_0_0_#047857] scale-105': isAnswered() && option === correctAnswer(),
+                    'bg-rose-500 border-rose-600 text-white shadow-[0_4px_0_0_#be123c] opacity-50': isAnswered() && selectedOption() === option && option !== correctAnswer(),
+                    'opacity-40 bg-slate-200 border-slate-300 text-slate-400 shadow-none pointer-events-none': isAnswered() && option !== correctAnswer() && selectedOption() !== option
+                }">
+                {{ option }}
+            </button>
+        </div>
+
+        <div class="w-full flex justify-end mt-2">
+            <button (click)="nextQuestion()" [disabled]="!isAnswered()"
+                class="disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none bg-rose-500 hover:bg-rose-400 active:translate-y-1 active:shadow-[0_3px_0_0_#be123c] border-4 border-rose-600 text-white font-black text-lg px-8 py-3 rounded-2xl shadow-[0_6px_0_0_#be123c] flex items-center gap-2 cursor-pointer transition-all uppercase tracking-wide">
+                Siguiente
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-[3]" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0 l-7 7m7-7H3" />
+                </svg>
+            </button>
+        </div>
+    </footer>
+
+</div>
+
+<app-game-over-modal [isOpen]="showModal()" [finalScore]="lastFinalScore()" [bestRecord]="sessionScore()"
+    (onRestart)="handleRestartGame()">
+</app-game-over-modal>
