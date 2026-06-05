@@ -1,109 +1,120 @@
 <div
-    class="min-h-screen bg-gradient-to-b from-blue-100 to-indigo-200 p-4 md:p-8 flex flex-col font-sans select-none justify-between">
+    class="min-h-screen bg-gradient-to-b from-blue-100 to-indigo-200 p-3 md:p-8 flex flex-col font-sans select-none justify-between gap-4">
 
-    <header class="flex flex-col sm:flex-row justify-between items-center w-full max-w-4xl mx-auto gap-4">
+    <header class="flex flex-row justify-between items-center w-full max-w-4xl mx-auto gap-2 md:gap-4 flex-shrink-0">
         <div
-            class="bg-amber-400 border-4 border-amber-500 rounded-2xl p-3 text-center shadow-[0_6px_0_0_#d97706] flex-1 w-full sm:max-w-[180px]">
-            <span class="block text-xs font-black text-amber-900 tracking-wider uppercase">✨ PUNTOS ✨</span>
-            <span class="text-3xl font-black text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
+            class="bg-amber-400 border-4 border-amber-500 rounded-2xl p-2 md:p-3 text-center shadow-[0_6px_0_0_#d97706] w-[28%] md:flex-1">
+            <span class="block text-[10px] md:text-xs font-black text-amber-900 tracking-wider uppercase">✨ PUNTOS
+                ✨</span>
+            <span class="text-xl md:text-3xl font-black text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
                 {{ currentScore() }}
             </span>
         </div>
 
         <div
-            class="bg-rose-100 border-4 border-rose-300 rounded-2xl p-2 px-6 text-center flex items-center gap-2 shadow-[0_4px_0_0_rgba(244,63,94,0.2)]">
-            <span class="text-xs font-black text-rose-700 uppercase mr-1">Errores:</span>
-            <div class="flex gap-1.5">
-                <span class="text-2xl transition-all duration-300" [class.opacity-30]="wrongAnswersCount() < 1">❌</span>
-                <span class="text-2xl transition-all duration-300" [class.opacity-30]="wrongAnswersCount() < 2">❌</span>
-                <span class="text-2xl transition-all duration-300" [class.opacity-30]="wrongAnswersCount() < 3">❌</span>
+            class="bg-rose-100 border-4 border-rose-300 rounded-2xl p-2 px-3 md:px-6 text-center flex items-center justify-center gap-1 md:gap-2 shadow-[0_4px_0_0_rgba(244,63,94,0.2)] flex-1 max-w-[180px] md:max-w-none">
+            <span
+                class="text-[10px] md:text-xs font-black text-rose-700 uppercase mr-0.5 hidden xs:inline">Errores:</span>
+            <div class="flex gap-1 md:gap-1.5">
+                <span class="text-lg md:text-2xl transition-all duration-300"
+                    [class.opacity-30]="wrongAnswersCount() < 1">❌</span>
+                <span class="text-lg md:text-2xl transition-all duration-300"
+                    [class.opacity-30]="wrongAnswersCount() < 2">❌</span>
+                <span class="text-lg md:text-2xl transition-all duration-300"
+                    [class.opacity-30]="wrongAnswersCount() < 3">❌</span>
             </div>
         </div>
 
         <div
-            class="bg-emerald-400 border-4 border-emerald-500 rounded-2xl p-3 text-center shadow-[0_6px_0_0_#059669] flex-1 w-full sm:max-w-[180px]">
-            <span class="block text-xs font-black text-emerald-900 tracking-wider uppercase">🏆 RÉCORD 🏆</span>
-            <span class="text-3xl font-black text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
+            class="bg-emerald-400 border-4 border-emerald-500 rounded-2xl p-2 md:p-3 text-center shadow-[0_6px_0_0_#059669] w-[28%] md:flex-1">
+            <span class="block text-[10px] md:text-xs font-black text-emerald-900 tracking-wider uppercase">🏆 RÉCORD
+                🏆</span>
+            <span class="text-xl md:text-3xl font-black text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
                 {{ sessionScore() }}
             </span>
         </div>
     </header>
 
-    <section class="w-full max-w-4xl mx-auto flex-shrink-0"
-        style="margin-top: 2rem !important; margin-bottom: 2rem !important;">
-        <div class="bg-white border-[6px] border-indigo-400 rounded-[2.5rem] text-center shadow-[0_12px_0_0_rgba(129,140,248,0.3)] relative overflow-visible"
-            style="padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; padding-left: 1.5rem !important; padding-right: 1.5rem !important;">
-    
+    <section class="w-full max-w-4xl mx-auto flex-shrink-0">
+        <div
+            class="bg-white border-[4px] md:border-[5px] border-indigo-300 rounded-[2rem] py-3 px-4 md:py-4 md:px-6 text-center shadow-[0_8px_0_0_rgba(129,140,248,0.25)] relative overflow-visible">
+
             <span
-                class="bg-indigo-100 text-indigo-700 text-sm font-black px-6 py-2 rounded-full uppercase tracking-widest max-w-xs mx-auto"
-                style="display: block !important; margin-bottom: 2rem !important;">
-                🎯 Elige las tablas para jugar 🎯
+                class="inline-block bg-indigo-50 text-indigo-600 text-[10px] md:text-xs font-black px-3 py-1 rounded-full uppercase tracking-widest mb-2 md:mb-3">
+                🎯 Tablas activas para jugar 🎯
             </span>
-    
-            <div class="flex flex-row justify-center items-center flex-wrap gap-3 max-w-2xl mx-auto"
-                style="display: flex !important; gap: 0.75rem !important;">
-                <button *ngFor="let table of [1,2,3,4,5,6,7,8,9,10]" (click)="toggleTableSelection(table)" [ngClass]="{
-                            'shadow-[0_5px_0_0_#3730a3] -translate-y-0.5 active:translate-y-0.5 active:shadow-[0_1px_0_0_#3730a3]': selectedTables().includes(table),
-                            'shadow-[0_4px_0_0_#94a3b8]': !selectedTables().includes(table)
-                        }" [ngStyle]="{
-                            'background-color': selectedTables().includes(table) ? '#6366f1' : '#cbd5e1',
-                            'border-color': selectedTables().includes(table) ? '#4f46e5' : '#94a3b8',
-                            'color': selectedTables().includes(table) ? '#ffffff' : '#1e293b'
-                        }"
-                    class="font-black text-lg sm:text-xl flex items-center justify-center cursor-pointer select-none transition-all duration-100 flex-shrink-0"
-                    style="width: 3.25rem !important; height: 3.25rem !important; border-radius: 50% !important; border-width: 4px !important; border-style: solid !important;">
+
+            <div
+                class="grid grid-cols-5 md:flex md:flex-row md:justify-center md:items-center gap-2 md:gap-3 max-w-xs md:max-w-2xl mx-auto justify-items-center">
+                @for (table of [1,2,3,4,5,6,7,8,9,10]; track table) {
+                <button (click)="toggleTableSelection(table)" [ngClass]="{
+                                'shadow-[0_4px_0_0_#3730a3] -translate-y-0.5 active:translate-y-0.5 active:shadow-[0_1px_0_0_#3730a3]': selectedTables().includes(table),
+                                'shadow-[0_3px_0_0_#94a3b8]': !selectedTables().includes(table)
+                            }" [ngStyle]="{
+                                'background-color': selectedTables().includes(table) ? '#6366f1' : '#cbd5e1',
+                                'border-color': selectedTables().includes(table) ? '#4f46e5' : '#94a3b8',
+                                'color': selectedTables().includes(table) ? '#ffffff' : '#1e293b'
+                            }"
+                    class="font-black text-xs md:text-base flex items-center justify-center cursor-pointer select-none transition-all duration-100 flex-shrink-0 w-9 h-9 md:w-11 md:h-11 rounded-full border-2 md:border-4">
                     {{ table }}
                 </button>
+                }
             </div>
         </div>
     </section>
 
-    <main class="flex flex-col justify-center items-center max-w-4xl w-full mx-auto">
+    <main class="flex flex-col justify-center items-center max-w-4xl w-full mx-auto flex-grow my-2">
         <div
-            class="bg-white border-[6px] border-indigo-400 rounded-[2.5rem] p-8 md:p-12 w-full text-center shadow-[0_12px_0_0_rgba(129,140,248,0.3)] relative overflow-hidden">
+            class="bg-white border-[6px] border-indigo-400 rounded-[2.5rem] p-8 md:p-16 w-full h-full flex flex-col justify-center items-center text-center shadow-[0_12px_0_0_rgba(129,140,248,0.3)] relative overflow-hidden">
             <div class="absolute -top-10 -left-10 w-32 h-32 bg-yellow-100 rounded-full opacity-50 pointer-events-none">
             </div>
 
             <span
-                class="inline-block bg-indigo-100 text-indigo-700 text-sm font-black px-4 py-1.5 rounded-full uppercase tracking-widest mb-4">
+                class="inline-block bg-indigo-100 text-indigo-700 text-xs md:text-sm font-black px-5 py-2 rounded-full uppercase tracking-widest mb-4 md:mb-6">
                 ¿Cuánto es?
             </span>
 
             <div
-                class="flex justify-center items-center gap-4 text-6xl md:text-8xl font-black text-slate-700 tracking-tighter">
-                <span class="text-blue-500 drop-shadow-[0_4px_0_rgba(0,0,0,0.1)]">{{ firstNumber() }}</span>
-                <span class="text-pink-500 text-5xl md:text-7xl">×</span>
-                <span class="text-purple-500 drop-shadow-[0_4px_0_rgba(0,0,0,0.1)]">{{ secondNumber() }}</span>
+                class="flex justify-center items-center gap-3 md:gap-6 text-6xl md:text-9xl font-black text-slate-700 tracking-tighter">
+                <span class="text-blue-500 drop-shadow-[0_6px_0_rgba(0,0,0,0.1)]">{{ firstNumber() }}</span>
+                <span class="text-pink-500 text-4xl md:text-8xl">×</span>
+                <span class="text-purple-500 drop-shadow-[0_6px_0_rgba(0,0,0,0.1)]">{{ secondNumber() }}</span>
                 <span class="text-slate-400">=</span>
-                <span *ngIf="!isAnswered()"
-                    class="text-orange-400 font-extrabold animate-pulse drop-shadow-[0_4px_0_rgba(0,0,0,0.1)]">?</span>
-                <span *ngIf="isAnswered()"
-                    class="text-indigo-600 font-extrabold drop-shadow-[0_4px_0_rgba(0,0,0,0.1)] animate-bounce">{{
-                    correctAnswer() }}</span>
+
+                @if (!isAnswered()) {
+                <span
+                    class="text-orange-400 font-extrabold animate-pulse drop-shadow-[0_6px_0_rgba(0,0,0,0.1)]">?</span>
+                } @else {
+                <span class="text-indigo-600 font-extrabold drop-shadow-[0_6px_0_rgba(0,0,0,0.1)] animate-bounce">
+                    {{ correctAnswer() }}
+                </span>
+                }
             </div>
         </div>
     </main>
 
-    <footer class="w-full max-w-4xl mx-auto flex flex-col items-center gap-6">
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 w-full">
-            <button *ngFor="let option of options()" (click)="selectOption(option)" [disabled]="isAnswered()"
-                class="text-4xl md:text-5xl py-4 rounded-3xl transition-all duration-150 border-4 font-black text-center cursor-pointer select-none"
+    <footer class="w-full max-w-4xl mx-auto flex flex-col items-center gap-4 md:gap-6 flex-shrink-0">
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 md:gap-4 w-full">
+            @for (option of options(); track option) {
+            <button (click)="selectOption(option)" [disabled]="isAnswered()"
+                class="text-3xl md:text-5xl py-3 md:py-4 rounded-3xl transition-all duration-150 border-4 font-black text-center cursor-pointer select-none"
                 [ngClass]="{
-                    'bg-lime-400 hover:bg-lime-300 border-lime-500 text-lime-950 shadow-[0_8px_0_0_#65a30d] active:translate-y-1 active:shadow-[0_4px_0_0_#65a30d]': !isAnswered(),
-                    'bg-emerald-500 border-emerald-600 text-white shadow-[0_4px_0_0_#047857] scale-105': isAnswered() && option === correctAnswer(),
-                    'bg-rose-500 border-rose-600 text-white shadow-[0_4px_0_0_#be123c] opacity-50': isAnswered() && selectedOption() === option && option !== correctAnswer(),
-                    'opacity-40 bg-slate-200 border-slate-300 text-slate-400 shadow-none pointer-events-none': isAnswered() && option !== correctAnswer() && selectedOption() !== option
-                }">
+                        'bg-lime-400 hover:bg-lime-300 border-lime-500 text-lime-950 shadow-[0_8px_0_0_#65a30d] active:translate-y-1 active:shadow-[0_4px_0_0_#65a30d]': !isAnswered(),
+                        'bg-emerald-500 border-emerald-600 text-white shadow-[0_4px_0_0_#047857] scale-105': isAnswered() && option === correctAnswer(),
+                        'bg-rose-500 border-rose-600 text-white shadow-[0_4px_0_0_#be123c] opacity-50': isAnswered() && selectedOption() === option && option !== correctAnswer(),
+                        'opacity-40 bg-slate-200 border-slate-300 text-slate-400 shadow-none pointer-events-none': isAnswered() && option !== correctAnswer() && selectedOption() !== option 
+                    }">
                 {{ option }}
             </button>
+            }
         </div>
 
-        <div class="w-full flex justify-end mt-2">
+        <div class="w-full flex justify-end mt-1">
             <button (click)="nextQuestion()" [disabled]="!isAnswered()"
-                class="disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none bg-rose-500 hover:bg-rose-400 active:translate-y-1 active:shadow-[0_3px_0_0_#be123c] border-4 border-rose-600 text-white font-black text-lg px-8 py-3 rounded-2xl shadow-[0_6px_0_0_#be123c] flex items-center gap-2 cursor-pointer transition-all uppercase tracking-wide">
+                class="disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none bg-rose-500 hover:bg-rose-400 active:translate-y-1 active:shadow-[0_3px_0_0_#be123c] border-4 border-rose-600 text-white font-black text-base md:text-lg px-6 md:px-8 py-2.5 md:py-3 rounded-2xl shadow-[0_6px_0_0_#be123c] flex items-center gap-2 cursor-pointer transition-all uppercase tracking-wide">
                 Siguiente
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-[3]" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 stroke-[3]" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0 l-7 7m7-7H3" />
                 </svg>
             </button>
@@ -112,6 +123,8 @@
 
 </div>
 
+@if (showModal()) {
 <app-game-over-modal [isOpen]="showModal()" [finalScore]="lastFinalScore()" [bestRecord]="sessionScore()"
     (onRestart)="handleRestartGame()">
 </app-game-over-modal>
+}
