@@ -136,8 +136,8 @@ export class Home {
     const validTables =
       activeTables.length > 0 ? activeTables : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    // We loop until we get 5 distinct plausible answers
-    while (uniqueAnswers.size < 5) {
+    // We loop until we get 4 distinct plausible answers
+    while (uniqueAnswers.size < 4) {
       // Pick a random table from her current selection to build a credible wrong answer
       const randomTableIdx = Math.floor(Math.random() * validTables.length);
       const randomFactor = Math.floor(Math.random() * 10) + 1;
