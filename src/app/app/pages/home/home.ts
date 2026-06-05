@@ -14,11 +14,12 @@ export class Home {
   currentScore = signal(0);
   sessionScore = signal(0);
   wrongAnswersCount = signal<number>(0);
+  selectedTables = signal<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
   showModal = signal<boolean>(false);
   lastFinalScore = signal<number>(0);
-  firstNumber = signal(Math.floor(Math.random() * 10));
-  secondNumber = signal(Math.floor(Math.random() * 10));
+  firstNumber = signal<number>(1);
+  secondNumber = signal<number>(1);
   options = signal<number[]>([]);
 
   correctAnswer = computed(() => this.firstNumber() * this.secondNumber());
@@ -30,10 +31,18 @@ export class Home {
     const savedCurrent = localStorage.getItem('quiz_current_score');
     const savedRecord = localStorage.getItem('quiz_highest_record');
     const savedErrors = localStorage.getItem('quiz_wrong_count');
+    const savedTables = localStorage.getItem('quiz_selected_tables');
 
     if (savedCurrent) this.currentScore.set(parseInt(savedCurrent, 10));
     if (savedRecord) this.sessionScore.set(parseInt(savedRecord, 10));
     if (savedErrors) this.wrongAnswersCount.set(parseInt(savedErrors, 10));
+    if (savedTables) {
+      try {
+        this.selectedTables.set(JSON.parse(savedTables));
+      } catch (e) {
+        this.selectedTables.set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+      }
+    }
 
     effect(() => {
       localStorage.setItem(
@@ -48,8 +57,13 @@ export class Home {
         'quiz_wrong_count',
         this.wrongAnswersCount().toString(),
       );
+      localStorage.setItem(
+        'quiz_selected_tables',
+        JSON.stringify(this.selectedTables()),
+      );
     });
 
+    this.setRandomNumbersBasedOnSelection();
     this.generateOptions();
   }
 
@@ -77,15 +91,59 @@ export class Home {
     }
   }
 
+  private setRandomNumbersBasedOnSelection(): void {
+    const activeTables = this.selectedTables();
+
+    // Guardrail: If no tables are selected, default to all tables to avoid runtime errors
+    const validTables =
+      activeTables.length > 0 ? activeTables : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    const randomIndex = Math.floor(Math.random() * validTables.length);
+
+    this.firstNumber.set(validTables[randomIndex]);
+    this.secondNumber.set(Math.floor(Math.random() * 10) + 1);
+  }
+
+  toggleTableSelection(tableNumber: number): void {
+    const currentSelection = this.selectedTables();
+    if (currentSelection.includes(tableNumber)) {
+      // Prevent removing the last remaining table to avoid empty selection states
+      if (currentSelection.length > 1) {
+        this.selectedTables.set(
+          currentSelection.filter((num) => num !== tableNumber),
+        );
+      }
+    } else {
+      this.selectedTables.set(
+        [...currentSelection, tableNumber].sort((a, b) => a - b),
+      );
+    }
+
+    // If the game hasn't been answered yet, we can force a reroll to match new criteria
+    if (!this.isAnswered()) {
+      this.setRandomNumbersBasedOnSelection();
+      this.generateOptions();
+    }
+  }
+
   generateOptions(): void {
     const correctAnswerValue = this.correctAnswer();
     const uniqueAnswers = new Set<number>();
 
     uniqueAnswers.add(correctAnswerValue);
 
+    const activeTables = this.selectedTables();
+    const validTables =
+      activeTables.length > 0 ? activeTables : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    // We loop until we get 5 distinct plausible answers
     while (uniqueAnswers.size < 5) {
-      const randomWrongAnswer = Math.floor(Math.random() * 100) + 1;
-      uniqueAnswers.add(randomWrongAnswer);
+      // Pick a random table from her current selection to build a credible wrong answer
+      const randomTableIdx = Math.floor(Math.random() * validTables.length);
+      const randomFactor = Math.floor(Math.random() * 10) + 1;
+
+      const plausibleWrongAnswer = validTables[randomTableIdx] * randomFactor;
+      uniqueAnswers.add(plausibleWrongAnswer);
     }
 
     const finalOptionsArray = Array.from(uniqueAnswers);
@@ -106,8 +164,7 @@ export class Home {
     this.isAnswered.set(false);
     this.selectedOption.set(null);
 
-    this.firstNumber.set(Math.floor(Math.random() * 10) + 1);
-    this.secondNumber.set(Math.floor(Math.random() * 10) + 1);
+    this.setRandomNumbersBasedOnSelection();
 
     this.generateOptions();
   }

@@ -1,5 +1,5 @@
 <div
-    class="min-h-screen bg-gradient-to-b from-blue-100 to-indigo-200 p-4 md:p-8 flex flex-col justify-between font-sans select-none">
+    class="min-h-screen bg-gradient-to-b from-blue-100 to-indigo-200 p-4 md:p-8 flex flex-col font-sans select-none justify-between">
 
     <header class="flex flex-col sm:flex-row justify-between items-center w-full max-w-4xl mx-auto gap-4">
         <div
@@ -29,7 +29,36 @@
         </div>
     </header>
 
-    <main class="flex-1 flex flex-col justify-center items-center my-6 max-w-4xl w-full mx-auto">
+    <section class="w-full max-w-4xl mx-auto flex-shrink-0"
+        style="margin-top: 2rem !important; margin-bottom: 2rem !important;">
+        <div class="bg-white border-[6px] border-indigo-400 rounded-[2.5rem] text-center shadow-[0_12px_0_0_rgba(129,140,248,0.3)] relative overflow-visible"
+            style="padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; padding-left: 1.5rem !important; padding-right: 1.5rem !important;">
+    
+            <span
+                class="bg-indigo-100 text-indigo-700 text-sm font-black px-6 py-2 rounded-full uppercase tracking-widest max-w-xs mx-auto"
+                style="display: block !important; margin-bottom: 2rem !important;">
+                🎯 Elige las tablas para jugar 🎯
+            </span>
+    
+            <div class="flex flex-row justify-center items-center flex-wrap gap-3 max-w-2xl mx-auto"
+                style="display: flex !important; gap: 0.75rem !important;">
+                <button *ngFor="let table of [1,2,3,4,5,6,7,8,9,10]" (click)="toggleTableSelection(table)" [ngClass]="{
+                            'shadow-[0_5px_0_0_#3730a3] -translate-y-0.5 active:translate-y-0.5 active:shadow-[0_1px_0_0_#3730a3]': selectedTables().includes(table),
+                            'shadow-[0_4px_0_0_#94a3b8]': !selectedTables().includes(table)
+                        }" [ngStyle]="{
+                            'background-color': selectedTables().includes(table) ? '#6366f1' : '#cbd5e1',
+                            'border-color': selectedTables().includes(table) ? '#4f46e5' : '#94a3b8',
+                            'color': selectedTables().includes(table) ? '#ffffff' : '#1e293b'
+                        }"
+                    class="font-black text-lg sm:text-xl flex items-center justify-center cursor-pointer select-none transition-all duration-100 flex-shrink-0"
+                    style="width: 3.25rem !important; height: 3.25rem !important; border-radius: 50% !important; border-width: 4px !important; border-style: solid !important;">
+                    {{ table }}
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <main class="flex flex-col justify-center items-center max-w-4xl w-full mx-auto">
         <div
             class="bg-white border-[6px] border-indigo-400 rounded-[2.5rem] p-8 md:p-12 w-full text-center shadow-[0_12px_0_0_rgba(129,140,248,0.3)] relative overflow-hidden">
             <div class="absolute -top-10 -left-10 w-32 h-32 bg-yellow-100 rounded-full opacity-50 pointer-events-none">
